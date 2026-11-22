@@ -3,16 +3,18 @@ from os import system
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import NoSuchElementException
+from webdriver_manager.chrome import ChromeDriverManager
 
 # === CONFIGURATION ===
-VIDEO_URL = "https://vt.tiktok.com/ZSsJXGEEE/"  # ← BURAYA HEDEF VİDEO LİNKİNİ YAZ
-SERVICE = "followers"  # followers | hearts | views | shares | favorites
-MAX_ROUNDS = 10  # Kaç tur kasma yapılacak
+VIDEO_URL = "https://vt.tiktok.com/ZSsJXGEEE/"
+SERVICE = "followers"
+MAX_ROUNDS = 10
 
 class Bot:
     def __init__(self):
-        system("cls || clear")
+        system("clear")
         self._print_banner()
         self.driver = self._init_driver()
         self.services = self._init_services()
@@ -50,9 +52,13 @@ class Bot:
             options.add_argument("--headless=new")
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--disable-gpu")
             options.add_argument("--width=800")
             options.add_argument("--height=700")
-            driver = webdriver.Chrome(options=options)
+            options.binary_location = "/snap/bin/chromium"
+
+            service = Service(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=options)
             print("[+] Driver loaded")
         except Exception as e:
             print(f"[x] Driver error: {e}")
