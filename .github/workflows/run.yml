@@ -10,9 +10,9 @@ jobs:
         with:
           python-version: '3.11'
       - run: |
-          pip install selenium
+          pip install selenium webdriver-manager
           sudo apt-get update
-          sudo apt-get install -y chromium-browser chromium-chromedriver
+          sudo apt-get install -y chromium-browser
       - run: python bot.py
       - if: always()
         uses: actions/upload-artifact@v4
